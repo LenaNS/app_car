@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<a class="button-back" href="{% url 'cars:cars_list' %}"><< Вернуться</a>
+<h2>Регистрация</h2>
+    <form class="form-register" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+{% endblock %}

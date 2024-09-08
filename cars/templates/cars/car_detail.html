@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{{ car }}{% endblock title %}
+{% block content %}
+    <a class="button-back" href="{% url 'cars:cars_list' %}"><< Вернуться</a>
+    <div class="car-content">
+        <h1>Автомобиль {{ car }}</h1>
+        <p>{{car.description}}</p>
+        <p>Дата создания: {{car.created_at}}</p>
+        <p>Дата последнего обновления: {{car.updated_at}}</p>
+        {% if user == car.owner %}
+            <a class="edit-car" href="{% url 'cars:car_edit' car.id %}">Редактировать запись</a>
+        {% endif %}
+    </div>
+    <h2>Комментировать</h2>
+    {% if error_message %}
+        <p class="error">{{ error_message }}</p>
+    {% endif %}
+    <form class="form-comment" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+    <div class="block-comment"></div>
+    <h2>Комментарии</h2>
+    <ul class="comments">
+        {% for comment in car.comments.all %}
+            <hr>
+            <li><p>{{ comment.author.username }}:</p> 
+                <p>{{ comment.content }}</p>
+                <p>({{ comment.created_at }})</p> </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+  {% if form.errors %}
+    <p class="error">Пользователь с таким логином и паролем не найден. Пожалуйста, попробуйте ещё раз.</p>
+  {% endif %}
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p class="error">Ваша учетная запись не имеет прав доступа к этой странице. Чтобы отобразить эту страницу,
+        пожалуйста, авторизуйтесь используя учетную запись, которая имеет права доступа.</p>
+    {% else %}
+      <p class="error">Пожалуйста, авторизуйтесь, чтобы увидеть эту страницу.</p>
+    {% endif %}
+  {% endif %}
+  <a class="button-back" href="{% url 'cars:cars_list' %}"><< Вернуться</a>
+  <form class="form-login" method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table>
+      <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
+    <input class="button" type="submit" value="Войти" />
+    <input type="hidden" name="next" value="{{ next }}" />
+  </form>
+{% endblock %}

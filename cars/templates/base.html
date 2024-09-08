@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/cars/style.css' %}">
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+<body>
+    <div class="account">
+    {% if user.is_authenticated %}
+            <form class="account-form" method="post" action="{% url 'logout' %}">
+                <p class="user">{{ user.username }}</p>
+                {% csrf_token %}
+                <button class="but" type="submit">Выйти</button>
+            </form>
+        {% else %}
+            <a class="but" href="{% url 'login' %}">Войти</a>
+            <a class="but register" href="{% url 'register' %}">Зарегистрироваться</a>
+    {% endif %}
+    </div>
+    <div class="content">
+    {% block content %}{% endblock content %}
+    </div>
+</body>
+</html>
